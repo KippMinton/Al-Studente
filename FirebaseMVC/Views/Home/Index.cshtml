@@ -1,9 +1,57 @@
 ﻿@model AlStudente.Models.UserProfile
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "AlStudente - {Model.DisplayName}";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h2 class="dislay-4">Your email address is @Model.Email, but you probably knew that.</h2>
+    <h1 class="display-4">Welcome @Model.DisplayName</h1>
+</div>
+
+<div class="container pt-5">
+    <h4>@Model.FullName</h4>
+    <hr />
+    @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))
+    {
+        <section class="row justify-content-center">
+            <div>
+                <img src="@Model.ImageLocation" />
+            </div>
+        </section>
+    }
+    <dl class="row justify-content-between">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DisplayName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DisplayName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreateDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreateDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserType.Name)
+        </dd>
+    </dl>
+</div>
+<div class="row justify-content-center">
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
 </div>
