@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using AlStudente.Utils;
 
 namespace AlStudente.Repositories
 {
@@ -103,15 +104,15 @@ namespace AlStudente.Repositories
                                         INSERT INTO
                                         UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, Email, CreateDateTime, ImageLocation, UserTypeId, InstrumentId, Bio) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, @CreateDateTime, @ImageLocation, @UserTypeId, @InstrumentId, @Bio)";
+                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, GETDATE(), @ImageLocation, 2, 1, @Bio)";
 
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
+                    cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", userProfile.LastName);
+                    cmd.Parameters.AddWithValue("@displayName", userProfile.DisplayName);
                     cmd.Parameters.AddWithValue("@email", userProfile.Email);
-                    cmd.Parameters.AddWithValue();
-                    cmd.Parameters.AddWithValue();
-                    cmd.Parameters.AddWithValue();
-                    cmd.Parameters.AddWithValue();
-                    cmd.Parameters.AddWithValue();
+                    cmd.Parameters.AddWithValue("@imageLocation", DbUtils.ValueOrDBNull(userProfile.ImageLocation));
+                    cmd.Parameters.AddWithValue("@Bio", DbUtils.ValueOrDBNull(userProfile.Bio));
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

@@ -81,6 +81,7 @@ namespace AlStudente.Auth
                 FirebaseUserId = fbUser.FirebaseUserId,
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
+                DisplayName = registration.DisplayName,
                 UserTypeId = 2
             };
             _userProfileRepository.Add(newUserProfile);
