@@ -101,12 +101,17 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        UserProfile (Email, FirebaseUserId) 
+                                        UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, Email, CreateDateTime, ImageLocation, UserTypeId, InstrumentId, Bio) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@email, @firebaseUserId)";
+                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, @CreateDateTime, @ImageLocation, @UserTypeId, @InstrumentId, @Bio)";
 
-                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
+                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
+                    cmd.Parameters.AddWithValue();
+                    cmd.Parameters.AddWithValue();
+                    cmd.Parameters.AddWithValue();
+                    cmd.Parameters.AddWithValue();
+                    cmd.Parameters.AddWithValue();
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

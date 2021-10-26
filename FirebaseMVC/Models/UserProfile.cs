@@ -10,7 +10,7 @@ namespace AlStudente.Models
         public string ImageLocation { get; set; }
         public int UserTypeId { get; set; }
         public int InstrumentId { get; set; }
-        public string Bio { get; set }
+        public string Bio { get; set; }
         public DateTime CreateDateTime { get; set; }
     }
 }
