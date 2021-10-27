@@ -71,16 +71,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => dummy.Id)
+                @Html.DisplayNameFor(model => dummy.Student.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => dummy.UserId)
+                @Html.DisplayNameFor(model => dummy.UserProfile.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => dummy.DOB)
+                @Html.DisplayNameFor(model => dummy.Student.UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => dummy.LessonDayId)
+                @Html.DisplayNameFor(model => dummy.Student.DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => dummy.Student.LessonDayId)
             </th>
             <th></th>
         </tr>
@@ -90,16 +93,19 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Student.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
+                    @Html.DisplayFor(modelItem => item.UserProfile.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DOB)
+                    @Html.DisplayFor(modelItem => item.Student.UserId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LessonDayId)
+                    @Html.DisplayFor(modelItem => item.Student.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.LessonDayId)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

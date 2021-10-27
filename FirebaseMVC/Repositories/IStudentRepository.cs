@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AlStudente.Models;
+using AlStudente.Models.ViewModels;
 
 namespace AlStudente.Repositories
 {
@@ -8,6 +9,6 @@ namespace AlStudente.Repositories
     {
         //void Add(Student student);
         Student GetByUserId(int id);
-        List<Student> GetAllByTeacher(int teacherId);
+        List<StudentUserViewModel> GetAllByTeacher(int teacherId);
     }
 }

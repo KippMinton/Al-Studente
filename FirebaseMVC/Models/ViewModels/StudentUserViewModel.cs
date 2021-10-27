@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace AlStudente.Models.ViewModels
 {
-    public class TeacherUserViewModel
+    public class StudentUserViewModel
     {
         public UserProfile UserProfile { get; set; }
-        public Teacher Teacher { get; set; }
-        public List<StudentUserViewModel> Students { get; set; }
+        public Student Student { get; set; }
     }
 }
