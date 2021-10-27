@@ -22,7 +22,6 @@ namespace AlStudente.Auth
             _userProfileRepository = userProfileRepository;
             _firebaseAuthService = firebaseAuthService;
             _teacherRepository = teacherRepository;
-
         }
 
         public IActionResult Login()
@@ -89,7 +88,11 @@ namespace AlStudente.Auth
             };
             _userProfileRepository.Add(newUserProfile);
 
-            
+            var newTeacher = new Teacher
+            {
+                UserId = newUserProfile.Id
+            };
+            _teacherRepository.Add(newTeacher);
 
             await LoginToApp(newUserProfile);
 
