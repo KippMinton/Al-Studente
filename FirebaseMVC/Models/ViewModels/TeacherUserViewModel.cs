@@ -9,5 +9,6 @@ namespace AlStudente.Models.ViewModels
     {
         public UserProfile UserProfile { get; set; }
         public Teacher Teacher { get; set; }
+        public List<Student> Students { get; set; }
     }
 }

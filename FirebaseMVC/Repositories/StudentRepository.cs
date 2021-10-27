@@ -75,8 +75,11 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
-                               s.PlayingSince, s.Level, s.LessonDayId, s.LessonTimeId
+                               s.PlayingSince, s.Level, s.LessonDayId, s.LessonTimeId,
+                               u.Id, u.FirstName, u.LastName, u.DisplayName, u.Email, 
+                               u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.CreateDateTime
                         FROM Student s
+                             LEFT JOIN UserProfile u ON s.UserId = u.Id
                         WHERE s.TeacherId = @TeacherId";
 
                     cmd.Parameters.AddWithValue("@TeacherId", teacherId);
@@ -84,61 +87,28 @@ namespace AlStudente.Repositories
 
                     var students = new List<Student>();
 
-                    var newStudent =
-
                     while (reader.Read())
                     {
-                        students.Add(NewStudent)
+                        var newStudent = new Student()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                TeacherId = reader.GetInt32(reader.GetOrdinal("TeacherId")),
+                                DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
+                                StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
+                                Level = reader.GetInt32(reader.GetOrdinal("Level")),
+                                LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
+                                LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
+                            };
+                        students.Add(newStudent);
                     }
+
+                    reader.Close();
+
+                    return students;
                 }
             }
-        }
-
-
-
-
-
-
-
-        //public List<Post> GetUserPosts(int userProfileId)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //               SELECT p.Id, p.Title, p.Content, 
-        //                      p.ImageLocation AS HeaderImage,
-        //                      p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-        //                      p.CategoryId, p.UserProfileId,
-        //                      c.[Name] AS CategoryName,
-        //                      u.FirstName, u.LastName, u.DisplayName, 
-        //                      u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
-        //                      u.UserTypeId, 
-        //                      ut.[Name] AS UserTypeName     
-        //                 FROM Post p
-        //                      LEFT JOIN Category c ON p.CategoryId = c.id
-        //                      LEFT JOIN UserProfile u ON p.UserProfileId = u.id
-        //                      LEFT JOIN UserType ut ON u.UserTypeId = ut.id 
-        //                WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME() AND p.UserProfileId = @userProfileId
-        //                ORDER BY p.PublishDateTime DESC";
-
-        //            cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
-        //            var reader = cmd.ExecuteReader();
-
-        //            var posts = new List<Post>();
-
-        //            while (reader.Read())
-        //            {
-        //                posts.Add(NewPostFromReader(reader));
-        //            }
-
-        //            reader.Close();
-
-        //            return posts;
-        //        }
-        //    }
         }
     }
 }
