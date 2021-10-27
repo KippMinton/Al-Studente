@@ -13,7 +13,16 @@ namespace AlStudente.Models
         public DateTime CreateDateTime { get; set; }
         public string ImageLocation { get; set; }
         public int UserTypeId { get; set; }
+        public UserType UserType { get; set; }
         public int InstrumentId { get; set; }
         public string Bio { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
     }
 }

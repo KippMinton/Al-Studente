@@ -35,22 +35,34 @@ namespace AlStudente.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Email, FirebaseUserId
-                                    FROM UserProfile
-                                    WHERE Id = @Id";
+                                    SELECT u.Id, u.Email, u.FirebaseUserId, u.FirstName, u.LastName,
+                                    u.DisplayName, u.CreateDateTime, u.ImageLocation, u.UserTypeId, ut.[Name] AS UserTypeName
+                                    FROM UserProfile u
+                                        LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                                    WHERE u.Id = @Id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@Id", id);
 
                     UserProfile userProfile = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        userProfile = new UserProfile
+                        userProfile = new UserProfile()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
+                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                            DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                            UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                            UserType = new UserType()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                            },
                         };
                     }
                     reader.Close();
@@ -104,7 +116,7 @@ namespace AlStudente.Repositories
                                         INSERT INTO
                                         UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, Email, CreateDateTime, ImageLocation, UserTypeId, InstrumentId, Bio) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, GETDATE(), @ImageLocation, 2, 1, @Bio)";
+                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, GETDATE(), @ImageLocation, @UserTypeId, 0, @Bio)";
 
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
                     cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
@@ -112,6 +124,7 @@ namespace AlStudente.Repositories
                     cmd.Parameters.AddWithValue("@displayName", userProfile.DisplayName);
                     cmd.Parameters.AddWithValue("@email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@imageLocation", DbUtils.ValueOrDBNull(userProfile.ImageLocation));
+                    cmd.Parameters.AddWithValue("@userTypeId", userProfile.UserTypeId);
                     cmd.Parameters.AddWithValue("@Bio", DbUtils.ValueOrDBNull(userProfile.Bio));
 
                     userProfile.Id = (int)cmd.ExecuteScalar();

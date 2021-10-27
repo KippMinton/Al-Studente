@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using AlStudente.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 using System.Security.Claims;
 using AlStudente.Repositories;
+using AlStudente.Models.ViewModels;
 
 namespace AlStudente.Controllers
 {
@@ -11,17 +13,31 @@ namespace AlStudente.Controllers
     public class HomeController : Controller
     {
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public HomeController(IUserProfileRepository userProfileRepository)
+        public HomeController(IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository, IStudentRepository studentRepository)
         {
             _userProfileRepository = userProfileRepository;
+            _teacherRepository = teacherRepository;
+            _studentRepository = studentRepository;
         }
 
         public IActionResult Index()
         {
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
-            return View(userProfile);
+            var teacher = _teacherRepository.GetByUserId(userProfileId);
+            List<StudentUserViewModel> students = _studentRepository.GetAllByTeacher(teacher.UserId);
+            
+            TeacherUserViewModel vm = new TeacherUserViewModel
+            {
+                UserProfile = userProfile,
+                Teacher = teacher,
+                Students = students
+            };
+
+            return View(vm);
         }
 
         public IActionResult Privacy()
