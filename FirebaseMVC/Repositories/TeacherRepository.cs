@@ -60,5 +60,25 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        public void Add(Teacher teacher)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    INSERT INTO
+                                    Teacher (UserId, AcceptingStudents, LessonRate)
+                                    OUTPUT INSERTED.ID
+                                    VALUES(@userId, 0, 0)";
+
+                    cmd.Parameters.AddWithValue("@userId", teacher.UserId);
+
+                    teacher.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }

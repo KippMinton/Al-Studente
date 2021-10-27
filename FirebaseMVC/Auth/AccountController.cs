@@ -15,11 +15,14 @@ namespace AlStudente.Auth
     {
         private readonly IFirebaseAuthService _firebaseAuthService;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public AccountController(IFirebaseAuthService firebaseAuthService, IUserProfileRepository userProfileRepository)
+        public AccountController(IFirebaseAuthService firebaseAuthService, IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository)
         {
             _userProfileRepository = userProfileRepository;
             _firebaseAuthService = firebaseAuthService;
+            _teacherRepository = teacherRepository;
+
         }
 
         public IActionResult Login()
@@ -85,6 +88,8 @@ namespace AlStudente.Auth
                 UserTypeId = 2
             };
             _userProfileRepository.Add(newUserProfile);
+
+            
 
             await LoginToApp(newUserProfile);
 
