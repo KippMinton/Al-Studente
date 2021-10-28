@@ -7,7 +7,7 @@ namespace AlStudente.Repositories
 {
     public interface IStudentRepository
     {
-        //void Add(Student student);
+        void Add(Student student);
         Student GetByUserId(int id);
         List<StudentUserViewModel> GetAllByTeacher(int teacherId);
     }

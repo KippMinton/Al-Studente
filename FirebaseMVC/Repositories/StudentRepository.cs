@@ -56,7 +56,7 @@ namespace AlStudente.Repositories
                             DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
                             StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
                             PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
-                            Level = reader.GetInt32(reader.GetOrdinal("Level")),
+                            LevelId = reader.GetInt32(reader.GetOrdinal("Level")),
                             LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
                             LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
                         };
@@ -76,7 +76,7 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
-                               s.PlayingSince, s.Level, s.LessonDayId, s.LessonTimeId,
+                               s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId,
                                u.Id as ProfileId, u.FirstName, u.LastName, u.DisplayName, u.Email, 
                                u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.CreateDateTime,
                                u.UserTypeId, ut.Id as UtId, ut.Name as UserTypeName
@@ -102,7 +102,7 @@ namespace AlStudente.Repositories
                                     DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
                                     StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
                                     PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
-                                    Level = reader.GetInt32(reader.GetOrdinal("Level")),
+                                    LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
                                     LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
                                     LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
                                 },
@@ -130,6 +130,35 @@ namespace AlStudente.Repositories
                     reader.Close();
 
                     return students;
+                }
+            }
+        }
+
+        public void Add(Student student)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    INSERT INTO
+                                    Student (UserId, TeacherId, DOB, StartDate,
+                                             PlayingSince, LevelId, LessonDayId, LessonTimeId)
+                                    OUTPUT INSERTED.ID
+                                    VALUES(@userId, @teacherId, @dOB, @startDate,
+                                           @playingSince, @levelId, @lessonDayId, @lessonTimeId)";
+
+                    cmd.Parameters.AddWithValue("@userId", student.UserId);
+                    cmd.Parameters.AddWithValue("@teacherId", student.TeacherId);
+                    cmd.Parameters.AddWithValue("@dOB", student.DOB);
+                    cmd.Parameters.AddWithValue("@startDate", student.StartDate);
+                    cmd.Parameters.AddWithValue("@playingSince", student.PlayingSince);
+                    cmd.Parameters.AddWithValue("@levelId", student.LevelId);
+                    cmd.Parameters.AddWithValue("@lessonDayId", student.LessonDayId);
+                    cmd.Parameters.AddWithValue("@lessonTimeId", student.LessonTimeId);
+
+                    student.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }

@@ -7,5 +7,6 @@ namespace AlStudente.Auth
     {
         Task<FirebaseUser> Login(Credentials credentials);
         Task<FirebaseUser> Register(Registration registration);
+        Task<FirebaseUser> RegisterStudent(StudentRegistration studentRegistration);
     }
 }

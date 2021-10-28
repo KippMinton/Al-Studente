@@ -10,7 +10,7 @@ namespace AlStudente.Models
         public DateTime DOB { get; set; }
         public DateTime StartDate { get; set; }
         public int PlayingSince { get; set; }
-        public int Level { get; set; }
+        public int LevelId { get; set; }
         public int LessonDayId { get; set; }
         public int LessonTimeId { get; set; }
     }
