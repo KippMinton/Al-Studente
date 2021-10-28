@@ -146,8 +146,6 @@ namespace AlStudente.Auth
             };
             _studentRepository.Add(newStudent);
 
-            await LoginToApp(newUserProfile);
-
             return RedirectToAction("Index", "Home");
         }
 
