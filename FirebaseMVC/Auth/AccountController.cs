@@ -133,10 +133,13 @@ namespace AlStudente.Auth
             };
             _userProfileRepository.Add(newUserProfile);
 
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
+
             var newStudent = new Student
             {
                 UserId = newUserProfile.Id,
-                TeacherId = 1,
+                TeacherId = teacher.Id,
                 DOB = studentRegistration.DOB,
                 StartDate = studentRegistration.StartDate,
                 PlayingSince = studentRegistration.PlayingSince,
