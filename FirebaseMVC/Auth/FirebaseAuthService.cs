@@ -41,6 +41,12 @@ namespace AlStudente.Auth
             var url = FIREBASE_SIGN_UP_BASE_URL + _firebaseApiKey;
             return await SignUpOrSignIn(registration.Email, registration.Password, url);
         }
+        
+        public async Task<FirebaseUser> RegisterStudent(StudentRegistration studentRegistration)
+        {
+            var url = FIREBASE_SIGN_UP_BASE_URL + _firebaseApiKey;
+            return await SignUpOrSignIn(studentRegistration.Email, studentRegistration.Password, url);
+        }
 
         private async Task<FirebaseUser> SignUpOrSignIn(string email, string password, string url)
         {
