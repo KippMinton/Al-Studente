@@ -101,6 +101,23 @@ namespace AlStudente.Auth
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Edit(int id)
+        {
+            UserProfile user = _userProfileRepository.GetById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+
+
+
+
         public IActionResult RegisterStudent()
         {
             return View();

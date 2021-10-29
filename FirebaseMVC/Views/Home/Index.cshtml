@@ -85,7 +85,13 @@
                 @Html.DisplayNameFor(model => dummy.Student.DOB)
             </th>
             <th>
-                @Html.DisplayNameFor(model => dummy.Student.LessonDayId)
+                @Html.DisplayNameFor(model => model.StudentVM.LessonDay.Day)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentVM.LessonTime.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentVM.Instrument)
             </th>
             <th></th>
         </tr>
@@ -107,7 +113,13 @@
                     @Html.DisplayFor(modelItem => item.Student.DOB)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Student.LessonDayId)
+                    @Html.DisplayFor(modelItem => item.LessonDay.Day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonTime.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instrument.Name)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -124,6 +136,5 @@
 
 
 <div class="row justify-content-center">
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserProfile.Id }) |
 </div>
