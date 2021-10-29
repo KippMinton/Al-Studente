@@ -37,7 +37,7 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"
                                     SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
-                                           s.PlayingSince, s.Level, s.LessonDayId, s.LessonTimeId
+                                           s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId
                                     FROM Student s
                                     WHERE s.UserId = @Id";
 
@@ -56,7 +56,7 @@ namespace AlStudente.Repositories
                             DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
                             StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
                             PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
-                            LevelId = reader.GetInt32(reader.GetOrdinal("Level")),
+                            LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
                             LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
                             LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
                         };
@@ -79,13 +79,14 @@ namespace AlStudente.Repositories
                                s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId,
                                u.Id as ProfileId, u.FirstName, u.LastName, u.DisplayName, u.Email, 
                                u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.CreateDateTime,
-                               u.UserTypeId, ut.Id as UtId, ut.Name as UserTypeName, i.Id as InstId,
+                               u.UserTypeId, l.Id as LId, l.Name as Level, ut.Id as UtId, ut.Name as UserTypeName, i.Id as InstId,
                                i.Name as InstName, ld.Id as DayId, ld.Day as Day, lt.Id as TimeId,
                                lt.Time as Time
                         FROM Student s
                         LEFT JOIN UserProfile u ON s.UserId = u.Id
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                         LEFT JOIN Instrument i on u.InstrumentId = i.Id
+                        LEFT JOIN Level l on s.LevelId = l.Id
                         LEFT JOIN LessonDay ld on s.LessonDayId = ld.Id
                         LEFT JOIN LessonTime lt on s.LessonTimeId = lt.Id
                         WHERE s.TeacherId = @TeacherId";
@@ -134,6 +135,12 @@ namespace AlStudente.Repositories
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("InstId")),
                                 Name = reader.GetString(reader.GetOrdinal("InstName"))
+                            },
+                            
+                            Level = new Level
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("LId")),
+                                Name = reader.GetString(reader.GetOrdinal("Level"))
                             },
 
                             LessonDay = new LessonDay 

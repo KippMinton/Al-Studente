@@ -12,7 +12,7 @@
     <hr />
     @if (!string.IsNullOrWhiteSpace(Model.UserProfile.ImageLocation))
     {
-        <section class="row justify-content-center">
+        <section class="row justify-content-start">
             <div>
                 <img src="@Model.UserProfile.ImageLocation" />
             </div>
@@ -73,16 +73,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => dummy.Student.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => dummy.UserProfile.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => dummy.Student.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => dummy.Student.DOB)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StudentVM.LessonDay.Day)
@@ -93,6 +84,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.StudentVM.Instrument)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentVM.Level)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -101,16 +95,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Student.Id)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.UserProfile.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Student.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Student.DOB)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LessonDay.Day)
@@ -120,6 +105,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Instrument.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level.Name)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
