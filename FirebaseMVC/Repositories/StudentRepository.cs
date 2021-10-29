@@ -93,37 +93,37 @@ namespace AlStudente.Repositories
                     while (reader.Read())
                     {
                         var newStudentVM = new StudentUserViewModel()
+                        {
+                            Student = new Student
                             {
-                                Student = new Student
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
-                                    TeacherId = reader.GetInt32(reader.GetOrdinal("TeacherId")),
-                                    DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
-                                    StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
-                                    PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
-                                    LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
-                                    LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
-                                    LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
-                                },
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                TeacherId = reader.GetInt32(reader.GetOrdinal("TeacherId")),
+                                DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
+                                StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
+                                LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
+                                LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
+                                LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
+                            },
 
-                                UserProfile = new UserProfile
+                            UserProfile = new UserProfile
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("ProfileId")),
+                                Email = reader.GetString(reader.GetOrdinal("Email")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                                UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                UserType = new UserType()
                                 {
-                                    Id = reader.GetInt32(reader.GetOrdinal("ProfileId")),
-                                    Email = reader.GetString(reader.GetOrdinal("Email")),
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                    DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
-                                    CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
-                                    ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
-                                    UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
-                                    UserType = new UserType()
-                                    {
-                                        Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
-                                        Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
-                                    },
-                                }
-                            };
+                                    Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                    Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                                },
+                            }
+                        };
                         students.Add(newStudentVM);
                     }
 

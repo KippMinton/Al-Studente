@@ -35,10 +35,10 @@ namespace AlStudente.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT u.Id, u.Email, u.FirebaseUserId, u.FirstName, u.LastName,
-                                    u.DisplayName, u.CreateDateTime, u.ImageLocation, u.UserTypeId, ut.[Name] AS UserTypeName
+                                    SELECT u.Id, u.Email, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName, 
+                                           u.CreateDateTime, u.ImageLocation, u.UserTypeId, ut.[Name] AS UserTypeName
                                     FROM UserProfile u
-                                        LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                                    LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                                     WHERE u.Id = @Id";
 
                     cmd.Parameters.AddWithValue("@Id", id);
