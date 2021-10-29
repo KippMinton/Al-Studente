@@ -6,8 +6,8 @@ namespace AlStudente.Models.ViewModels
     {
         public UserProfile UserProfile { get; set; }
         public Teacher Teacher { get; set; }
+        public StudentUserViewModel StudentVM { get; set; }
         public List<StudentUserViewModel> Students { get; set; }
-
         public List<Instrument> Instruments { get; set; }
     }
 }
