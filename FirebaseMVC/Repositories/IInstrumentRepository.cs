@@ -3,7 +3,7 @@ using AlStudente.Models;
 
 namespace AlStudente.Repositories
 {
-    public class IInstrumentRepository
+    public interface IInstrumentRepository
     {
         Instrument GetById(int id);
         List<Instrument> GetAll();

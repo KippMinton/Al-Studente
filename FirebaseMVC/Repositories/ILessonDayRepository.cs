@@ -3,7 +3,7 @@ using AlStudente.Models;
 
 namespace AlStudente.Repositories
 {
-    public class ILessonDayRepository
+    public interface ILessonDayRepository
     {
         LessonDay GetById(int id);
         List<LessonDay> GetAll();
