@@ -15,12 +15,20 @@ namespace AlStudente.Controllers
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IInstrumentRepository _instrumentRepository;
+        private readonly ILessonDayRepository _lessonDayRepository;
+        private readonly ILessonTimeRepository _lessonTimeRepository;
 
-        public HomeController(IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository, IStudentRepository studentRepository)
+        public HomeController(IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository,
+                              IStudentRepository studentRepository, IInstrumentRepository instrumentRepository,
+                              ILessonDayRepository lessonDayRepository, ILessonTimeRepository lessonTimeRepository)
         {
             _userProfileRepository = userProfileRepository;
             _teacherRepository = teacherRepository;
             _studentRepository = studentRepository;
+            _instrumentRepository = instrumentRepository;
+            _lessonDayRepository = lessonDayRepository;
+            _lessonTimeRepository = lessonTimeRepository;
         }
 
         public IActionResult Index()

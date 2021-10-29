@@ -79,10 +79,15 @@ namespace AlStudente.Repositories
                                s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId,
                                u.Id as ProfileId, u.FirstName, u.LastName, u.DisplayName, u.Email, 
                                u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.CreateDateTime,
-                               u.UserTypeId, ut.Id as UtId, ut.Name as UserTypeName
+                               u.UserTypeId, ut.Id as UtId, ut.Name as UserTypeName, i.Id as InstId,
+                               i.Name as InstName, ld.Id as DayId, ld.Day as Day, lt.Id as TimeId,
+                               lt.Time as Time
                         FROM Student s
-                             LEFT JOIN UserProfile u ON s.UserId = u.Id
-                             LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                        LEFT JOIN UserProfile u ON s.UserId = u.Id
+                        LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                        LEFT JOIN Instrument i on u.InstrumentId = i.Id
+                        LEFT JOIN LessonDay ld on s.LessonDayId = ld.Id
+                        LEFT JOIN LessonTime lt on s.LessonTimeId = lt.Id
                         WHERE s.TeacherId = @TeacherId";
 
                     cmd.Parameters.AddWithValue("@TeacherId", teacherId);
@@ -116,12 +121,31 @@ namespace AlStudente.Repositories
                                 DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                                 ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                                InstrumentId = reader.GetInt32(reader.GetOrdinal("InstrumentId")),
                                 UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                                 UserType = new UserType()
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                                     Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
                                 },
+                            },
+
+                            Instrument = new Instrument
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("InstId")),
+                                Name = reader.GetString(reader.GetOrdinal("InstName"))
+                            },
+
+                            LessonDay = new LessonDay 
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("DayId")),
+                                Day = reader.GetString(reader.GetOrdinal("Day"))
+                            },
+
+                            LessonTime = new LessonTime
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("TimeId")),
+                                Time = reader.GetString(reader.GetOrdinal("Time"))
                             }
                         };
                         students.Add(newStudentVM);

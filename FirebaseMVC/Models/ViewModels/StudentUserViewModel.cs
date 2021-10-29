@@ -6,5 +6,6 @@
         public Student Student { get; set; }
         public LessonDay LessonDay { get; set; }
         public LessonTime LessonTime { get; set; }
+        public Instrument Instrument { get; set; }
     }
 }
