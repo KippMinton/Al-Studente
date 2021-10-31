@@ -9,9 +9,6 @@ using AlStudente.Repositories;
 using AlStudente.Models;
 using Microsoft.Extensions.Configuration;
 
-using System.Collections.Generic;
-using AlStudente.Models;
-
 namespace AlStudente.Auth
 {
     public class AccountController : Controller
@@ -75,7 +72,14 @@ namespace AlStudente.Auth
 
         public IActionResult Register()
         {
-            return View();
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+
+            var regForm = new Registration
+            {
+                Instruments = instruments
+            };
+
+            return View(regForm);
         }
 
         [HttpPost]
@@ -101,13 +105,17 @@ namespace AlStudente.Auth
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
                 DisplayName = registration.DisplayName,
-                UserTypeId = 2
+                UserTypeId = 2,
+                InstrumentId = registration.InstrumentId,
+                Bio = registration.Bio
             };
             _userProfileRepository.Add(newUserProfile);
 
             var newTeacher = new Teacher
             {
-                UserId = newUserProfile.Id
+                UserId = newUserProfile.Id,
+                LessonRate = registration.Rate,
+                AcceptingStudents = registration.AcceptingStudents
             };
             _teacherRepository.Add(newTeacher);
 
