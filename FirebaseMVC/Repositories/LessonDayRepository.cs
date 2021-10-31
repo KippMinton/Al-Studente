@@ -64,7 +64,7 @@ namespace AlStudente.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Name FROM LessonDay";
+                    cmd.CommandText = @"SELECT Id, Day FROM LessonDay";
 
                     var reader = cmd.ExecuteReader();
 

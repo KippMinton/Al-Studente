@@ -22,22 +22,22 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DisplayName" class="control-label"></label>
+                <label asp-for="DisplayName" class="control-label">Display Name</label>
                 <input asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
@@ -47,7 +47,7 @@
                 <span asp-validation-for="Bio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
+                <label asp-for="StartDate" class="control-label">Start Date</label>
                 <input type="date" asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
@@ -57,23 +57,50 @@
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlayingSince" class="control-label"></label>
-                <input asp-for="PlayingSince" class="form-control" />
+                <label asp-for="PlayingSince" class="control-label">Playing Since</label>
+                <input type="number" min="1900" max="2100" asp-for="PlayingSince" class="form-control" />
                 <span asp-validation-for="PlayingSince" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LevelId" class="control-label"></label>
-                <input asp-for="LevelId" class="form-control" />
+                <label asp-for="LevelId" class="control-label">Level</label>
+                <select asp-for="LevelId" class="form-control">
+                    <option value="">Select Level</option>
+                    @foreach (Level level in Model.Levels)
+                    {
+                        <option value="@level.Id">@level.Name</option>
+                    }
+                </select>
                 <span asp-validation-for="LevelId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LessonDayId" class="control-label"></label>
-                <input asp-for="LessonDayId" class="form-control" />
+                <label asp-for="InstrumentId" class="control-label">Instrument</label>
+                <select asp-for="InstrumentId" class="form-control">
+                    <option value="">Select Instrument</option>
+                    @foreach (Instrument instrument in Model.Instruments)
+                    {
+                        <option value="@instrument.Id">@instrument.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="InstrumentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LessonDayId" class="control-label">Lesson Day</label>
+                <select asp-for="LessonDayId" class="form-control">
+                    @foreach (LessonDay day in Model.Days)
+                    {
+                        <option value="@day.Id">@day.Day</option>
+                    }
+                </select>
                 <span asp-validation-for="LessonDayId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LessonTimeId" class="control-label"></label>
-                <input asp-for="LessonTimeId" class="form-control" />
+                <label asp-for="LessonTimeId" class="control-label">Lesson Time</label>
+                <select asp-for="LessonTimeId" class="form-control">
+                    @foreach (LessonTime time in Model.Times)
+                    {
+                        <option value="@time.Id">@time.Time</option>
+                    }
+                </select>
                 <span asp-validation-for="LessonTimeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -84,7 +111,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -92,5 +119,6 @@
 }
 
 <script>
-        document.getElementById("Email").focus();
+    document.getElementById("Email").focus();
 </script>
+

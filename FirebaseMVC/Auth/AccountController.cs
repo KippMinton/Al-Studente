@@ -17,13 +17,25 @@ namespace AlStudente.Auth
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IInstrumentRepository _instrumentRepository;
+        private readonly ILessonDayRepository _lessonDayRepository;
+        private readonly ILessonTimeRepository _lessonTimeRepository;
+        private readonly ILevelRepository _levelRepository;
 
-        public AccountController(IFirebaseAuthService firebaseAuthService, IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository, IStudentRepository studentRepository)
+
+        public AccountController(IFirebaseAuthService firebaseAuthService, IUserProfileRepository userProfileRepository, 
+                                 ITeacherRepository teacherRepository, IStudentRepository studentRepository,
+                                 IInstrumentRepository instrumentRepository,ILessonDayRepository lessonDayRepository,
+                                 ILessonTimeRepository lessonTimeRepository, ILevelRepository levelRepository)
         {
             _userProfileRepository = userProfileRepository;
             _firebaseAuthService = firebaseAuthService;
             _teacherRepository = teacherRepository;
             _studentRepository = studentRepository;
+            _instrumentRepository = instrumentRepository;
+            _lessonDayRepository = lessonDayRepository;
+            _lessonTimeRepository = lessonTimeRepository;
+            _levelRepository = levelRepository;
         }
 
         public IActionResult Login()
@@ -60,7 +72,14 @@ namespace AlStudente.Auth
 
         public IActionResult Register()
         {
-            return View();
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+
+            var regForm = new Registration
+            {
+                Instruments = instruments
+            };
+
+            return View(regForm);
         }
 
         [HttpPost]
@@ -86,13 +105,17 @@ namespace AlStudente.Auth
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
                 DisplayName = registration.DisplayName,
-                UserTypeId = 2
+                UserTypeId = 2,
+                InstrumentId = registration.InstrumentId,
+                Bio = registration.Bio
             };
             _userProfileRepository.Add(newUserProfile);
 
             var newTeacher = new Teacher
             {
-                UserId = newUserProfile.Id
+                UserId = newUserProfile.Id,
+                LessonRate = registration.Rate,
+                AcceptingStudents = registration.AcceptingStudents
             };
             _teacherRepository.Add(newTeacher);
 
@@ -113,14 +136,22 @@ namespace AlStudente.Auth
             return View(user);
         }
 
-
-
-
-
-
         public IActionResult RegisterStudent()
         {
-            return View();
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+            List<Level> levels = _levelRepository.GetAll();
+            List<LessonDay> days = _lessonDayRepository.GetAll();
+            List<LessonTime> times = _lessonTimeRepository.GetAll();
+
+            var studentRegForm = new StudentRegistration
+            {
+                Instruments = instruments,
+                Levels = levels,
+                Days = days,
+                Times = times
+            };
+
+            return View(studentRegForm);
         }
 
         [HttpPost]
@@ -146,6 +177,7 @@ namespace AlStudente.Auth
                 FirstName = studentRegistration.FirstName,
                 LastName = studentRegistration.LastName,
                 DisplayName = studentRegistration.DisplayName,
+                InstrumentId = studentRegistration.InstrumentId,
                 UserTypeId = 3
             };
             _userProfileRepository.Add(newUserProfile);

@@ -72,9 +72,11 @@ namespace AlStudente.Repositories
                                     INSERT INTO
                                     Teacher (UserId, AcceptingStudents, LessonRate)
                                     OUTPUT INSERTED.ID
-                                    VALUES(@userId, 0, 0)";
+                                    VALUES(@userId, @acceptingStudents, @lessonRate)";
 
                     cmd.Parameters.AddWithValue("@userId", teacher.UserId);
+                    cmd.Parameters.AddWithValue("@acceptingStudents", teacher.AcceptingStudents);
+                    cmd.Parameters.AddWithValue("@lessonRate", teacher.LessonRate);
 
                     teacher.Id = (int)cmd.ExecuteScalar();
                 }

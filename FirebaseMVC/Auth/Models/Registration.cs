@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using AlStudente.Models;
 
 namespace AlStudente.Auth.Models
 {
@@ -28,6 +30,10 @@ namespace AlStudente.Auth.Models
         public string ImageLocation { get; set; }
         public int UserTypeId { get; set; }
         public int InstrumentId { get; set; }
+        public List<Instrument> Instruments { get; set; }
         public string Bio { get; set; }
+        public bool AcceptingStudents { get; set; }
+        public int Rate { get; set; }
+
     }
 }
