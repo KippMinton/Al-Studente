@@ -114,9 +114,13 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, Email, CreateDateTime, ImageLocation, UserTypeId, InstrumentId, Bio) 
+                                        UserProfile (FirebaseUserId, FirstName, LastName,
+                                                     DisplayName, Email, CreateDateTime, 
+                                                     ImageLocation, UserTypeId, InstrumentId, Bio) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@firebaseUserId, @FirstName, @LastName, @DisplayName, @Email, GETDATE(), @ImageLocation, @UserTypeId, 0, @Bio)";
+                                        VALUES(@firebaseUserId, @FirstName, @LastName,
+                                               @DisplayName, @Email, GETDATE(), @ImageLocation, 
+                                               @UserTypeId, @InstrumentId, @Bio)";
 
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
                     cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
@@ -125,6 +129,7 @@ namespace AlStudente.Repositories
                     cmd.Parameters.AddWithValue("@email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@imageLocation", DbUtils.ValueOrDBNull(userProfile.ImageLocation));
                     cmd.Parameters.AddWithValue("@userTypeId", userProfile.UserTypeId);
+                    cmd.Parameters.AddWithValue("@InstrumentId", userProfile.InstrumentId);
                     cmd.Parameters.AddWithValue("@Bio", DbUtils.ValueOrDBNull(userProfile.Bio));
 
                     userProfile.Id = (int)cmd.ExecuteScalar();

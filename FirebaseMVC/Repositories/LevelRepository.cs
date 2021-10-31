@@ -1,4 +1,4 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using AlStudente.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ using AlStudente.Models.ViewModels;
 
 namespace AlStudente.Repositories
 {
-    public class LessonTimeRepository : ILessonTimeRepository
+    public class LevelRepository : ILevelRepository
     {
         private readonly IConfiguration _config;
-        public LessonTimeRepository(IConfiguration config)
+        public LevelRepository(IConfiguration config)
         {
             _config = config;
         }
@@ -26,7 +26,7 @@ namespace AlStudente.Repositories
             }
         }
 
-        public LessonTime GetById(int id)
+        public Level GetById(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -34,54 +34,54 @@ namespace AlStudente.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id, Name
-                                        FROM LessonTime
+                                        FROM Level
                                         WHERE Id = @Id";
 
                     cmd.Parameters.AddWithValue("@Id", id);
 
-                    LessonTime lessonTime = null;
+                    Level level = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        lessonTime = new LessonTime
+                        level = new Level
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Time = reader.GetString(reader.GetOrdinal("Time"))
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
                         };
                     }
                     reader.Close();
 
-                    return lessonTime;
+                    return level;
                 }
             }
         }
 
-        public List<LessonTime> GetAll()
+        public List<Level> GetAll()
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Time FROM LessonTime";
+                    cmd.CommandText = @"SELECT Id, Name FROM Level";
 
                     var reader = cmd.ExecuteReader();
 
-                    List<LessonTime> lessonTimes = new List<LessonTime>();
+                    List<Level> levels = new List<Level>();
 
                     while (reader.Read())
                     {
-                        var lessonTime = new LessonTime
+                        var level = new Level
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Time = reader.GetString(reader.GetOrdinal("Time"))
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
                         };
 
-                        lessonTimes.Add(lessonTime);
+                        levels.Add(level);
                     }
                     reader.Close();
-                    return lessonTimes;
+                    return levels;
                 }
             }
         }

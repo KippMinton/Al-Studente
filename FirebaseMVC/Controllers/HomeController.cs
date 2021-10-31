@@ -18,10 +18,12 @@ namespace AlStudente.Controllers
         private readonly IInstrumentRepository _instrumentRepository;
         private readonly ILessonDayRepository _lessonDayRepository;
         private readonly ILessonTimeRepository _lessonTimeRepository;
+        private readonly ILevelRepository _levelRepository;
 
         public HomeController(IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository,
                               IStudentRepository studentRepository, IInstrumentRepository instrumentRepository,
-                              ILessonDayRepository lessonDayRepository, ILessonTimeRepository lessonTimeRepository)
+                              ILessonDayRepository lessonDayRepository, ILessonTimeRepository lessonTimeRepository,
+                              ILevelRepository levelRepository)
         {
             _userProfileRepository = userProfileRepository;
             _teacherRepository = teacherRepository;
@@ -29,6 +31,7 @@ namespace AlStudente.Controllers
             _instrumentRepository = instrumentRepository;
             _lessonDayRepository = lessonDayRepository;
             _lessonTimeRepository = lessonTimeRepository;
+            _levelRepository = levelRepository;
         }
 
         public IActionResult Index()

@@ -62,18 +62,45 @@
                 <span asp-validation-for="PlayingSince" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LevelId" class="control-label"></label>
-                <input asp-for="LevelId" class="form-control" />
+                <label asp-for="LevelId" class="control-label">Level</label>
+                <select asp-for="LevelId" class="form-control">
+                    <option value="">Select Level</option>
+                    @foreach (Level level in Model.Levels)
+                    {
+                        <option value="@level.Id">@level.Name</option>
+                    }
+                </select>
                 <span asp-validation-for="LevelId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LessonDayId" class="control-label"></label>
-                <input asp-for="LessonDayId" class="form-control" />
+                <label asp-for="InstrumentId" class="control-label">Instrument</label>
+                <select asp-for="InstrumentId" class="form-control">
+                    <option value="">Select Instrument</option>
+                    @foreach (Instrument instrument in Model.Instruments)
+                    {
+                        <option value="@instrument.Id">@instrument.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="LevelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LessonDayId" class="control-label">Lesson Day</label>
+                <select asp-for="LessonDayId" class="form-control">
+                    @foreach (LessonDay day in Model.Days)
+                    {
+                        <option value="@day.Id">@day.Day</option>
+                    }
+                </select>
                 <span asp-validation-for="LessonDayId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LessonTimeId" class="control-label"></label>
-                <input asp-for="LessonTimeId" class="form-control" />
+                <label asp-for="LessonTimeId" class="control-label">Lesson Time</label>
+                <select asp-for="LessonTimeId" class="form-control">
+                    @foreach (LessonTime time in Model.Times)
+                    {
+                        <option value="@time.Id">@time.Time</option>
+                    }
+                </select>
                 <span asp-validation-for="LessonTimeId" class="text-danger"></span>
             </div>
             <div class="form-group">
