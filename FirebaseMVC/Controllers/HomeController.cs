@@ -39,13 +39,16 @@ namespace AlStudente.Controllers
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
             var teacher = _teacherRepository.GetByUserId(userProfileId);
+            var teacherInst = _instrumentRepository.GetById(userProfile.InstrumentId);
+
             List<StudentUserViewModel> students = _studentRepository.GetAllByTeacher(teacher.Id);
             
             TeacherUserViewModel vm = new TeacherUserViewModel
             {
                 UserProfile = userProfile,
                 Teacher = teacher,
-                Students = students
+                Students = students,
+                Instrument = teacherInst
             };
 
             return View(vm);

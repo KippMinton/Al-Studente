@@ -6,5 +6,6 @@ namespace AlStudente.Repositories
     {
         void Add(Teacher teacher);
         Teacher GetByUserId(int id);
+        void Update(Teacher teacher);
     }
 }

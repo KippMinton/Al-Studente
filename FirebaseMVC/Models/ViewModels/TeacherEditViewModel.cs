@@ -3,7 +3,7 @@ using AlStudente.Auth.Models;
 
 namespace AlStudente.Models.ViewModels
 {
-    public class TeacherFormViewModel
+    public class TeacherEditViewModel
     {
         public Registration Registration { get; set; }
         public UserProfile UserProfile { get; set; }

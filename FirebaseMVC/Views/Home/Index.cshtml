@@ -1,6 +1,6 @@
 ﻿@model AlStudente.Models.ViewModels.TeacherUserViewModel
 @{
-    ViewData["Title"] = "AlStudente - {Model.DisplayName}";
+    ViewData["Title"] = "AlStudente - {Model.UserProfile.DisplayName}";
 }
 
 <div class="text-center">
@@ -9,6 +9,9 @@
 
 <div class="container pt-5">
     <h4>@Model.UserProfile.FullName</h4>
+    <div class="row justify-content-start" >
+        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="EditTeacher">Edit Profile</a>
+    </div>
     <hr />
     @if (!string.IsNullOrWhiteSpace(Model.UserProfile.ImageLocation))
     {
@@ -18,50 +21,56 @@
             </div>
         </section>
     }
-    <dl class="row justify-content-between">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model)Full Name
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserProfile.FullName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserProfile.DisplayName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserProfile.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserProfile.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserProfile.CreateDateTime)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserProfile.CreateDateTime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserProfile.UserType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserProfile.UserType.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Teacher.AcceptingStudents)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Teacher.AcceptingStudents)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Teacher.LessonRate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Teacher.LessonRate)
-        </dd>
-    </dl>
+<dl class="row justify-content-between">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model)Full Name
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserProfile.FullName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model)Display Name
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserProfile.DisplayName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UserProfile.Email)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserProfile.Email)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Instrument)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Instrument.Name)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model)User Type
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserProfile.UserType.Name)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model)Accepting Students
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Teacher.AcceptingStudents)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Teacher.LessonRate)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Teacher.LessonRate)
+    </dd>   
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UserProfile.Bio)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserProfile.Bio)
+    </dd>
+</dl>
 </div>
 
 <p>
@@ -124,5 +133,5 @@
 
 
 <div class="row justify-content-center">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserProfile.Id }) |
+    @Html.ActionLink("Edit", "EditTeacher", new { id = Model.UserProfile.Id })
 </div>

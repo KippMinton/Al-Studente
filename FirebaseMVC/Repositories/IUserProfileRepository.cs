@@ -7,5 +7,6 @@ namespace AlStudente.Repositories
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+        void Update(UserProfile userProfile);
     }
 }
