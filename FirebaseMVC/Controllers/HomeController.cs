@@ -81,6 +81,13 @@ namespace AlStudente.Controllers
             return View(vm);
         }
 
+        public IActionResult DeleteFromRoster(int id)
+        {
+            var student = _studentRepository.GetByUserId(id);
+            _studentRepository.DeleteFromRoster(student);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
