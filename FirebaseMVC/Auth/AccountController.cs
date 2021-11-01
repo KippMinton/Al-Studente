@@ -270,6 +270,32 @@ namespace AlStudente.Auth
         [ValidateAntiForgeryToken]
         public IActionResult EditStudent(int id, StudentEditViewModel studentEditVM)
         {
+            var userProfile = new UserProfile
+            {
+                Id = studentEditVM.UserProfile.Id,
+                FirstName = studentEditVM.UserProfile.FirstName,
+                LastName = studentEditVM.UserProfile.LastName,
+                DisplayName = studentEditVM.UserProfile.DisplayName,
+                InstrumentId = studentEditVM.UserProfile.InstrumentId,
+                ImageLocation = studentEditVM.UserProfile.ImageLocation,
+                Bio = studentEditVM.UserProfile.Bio
+            };
+
+            var student = new Student
+            {
+                UserId = studentEditVM.UserProfile.Id,
+                TeacherId = studentEditVM.Student.TeacherId,
+                DOB = studentEditVM.Student.DOB,
+                StartDate = studentEditVM.Student.StartDate,
+                PlayingSince = studentEditVM.Student.PlayingSince,
+                LevelId = studentEditVM.Student.LevelId,
+                LessonDayId = studentEditVM.Student.LessonDayId,
+                LessonTimeId = studentEditVM.Student.LessonTimeId
+            };
+
+            _userProfileRepository.Update(userProfile);
+            _studentRepository.Update(student);
+
             return RedirectToAction("StudentDetails", "Home", new { id = id });
         }
         
