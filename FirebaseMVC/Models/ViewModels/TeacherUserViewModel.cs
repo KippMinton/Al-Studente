@@ -9,5 +9,6 @@ namespace AlStudente.Models.ViewModels
         public StudentUserViewModel StudentVM { get; set; }
         public List<StudentUserViewModel> Students { get; set; }
         public List<Instrument> Instruments { get; set; }
+        public Instrument Instrument { get; set; }
     }
 }

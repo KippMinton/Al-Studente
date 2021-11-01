@@ -35,8 +35,9 @@ namespace AlStudente.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT u.Id, u.Email, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName, 
-                                           u.CreateDateTime, u.ImageLocation, u.UserTypeId, ut.[Name] AS UserTypeName
+                                    SELECT u.Id, u.Email, u.FirebaseUserId, u.FirstName, u.LastName,
+                                           u.DisplayName, u.InstrumentId, u.CreateDateTime, 
+                                           u.ImageLocation, u.Bio, u.UserTypeId, ut.[Name] AS UserTypeName
                                     FROM UserProfile u
                                     LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                                     WHERE u.Id = @Id";
@@ -55,8 +56,10 @@ namespace AlStudente.Repositories
                             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                             LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                            InstrumentId = reader.GetInt32(reader.GetOrdinal("InstrumentId")),
                             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                             ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                            Bio = DbUtils.GetNullableString(reader, "Bio"),
                             UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                             UserType = new UserType()
                             {

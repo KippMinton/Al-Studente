@@ -136,7 +136,7 @@ namespace AlStudente.Auth
             {
                 UserProfile = user,
                 Teacher = teacher,
-                Instruments = instruments,
+                Instruments = instruments
             };
 
             if (user == null)
