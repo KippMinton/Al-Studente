@@ -36,10 +36,10 @@ namespace AlStudente.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
-                                           s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId
-                                    FROM Student s
-                                    WHERE s.UserId = @Id";
+                                      SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
+                                             s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId
+                                      FROM Student s
+                                      WHERE s.UserId = @Id";
 
                     cmd.Parameters.AddWithValue("@Id", id);
 
@@ -89,9 +89,9 @@ namespace AlStudente.Repositories
                         LEFT JOIN Level l on s.LevelId = l.Id
                         LEFT JOIN LessonDay ld on s.LessonDayId = ld.Id
                         LEFT JOIN LessonTime lt on s.LessonTimeId = lt.Id
-                        WHERE s.TeacherId = @TeacherId";
+                        WHERE s.TeacherId = @teacherId";
 
-                    cmd.Parameters.AddWithValue("@TeacherId", teacherId);
+                    cmd.Parameters.AddWithValue("@teacherId", teacherId);
                     var reader = cmd.ExecuteReader();
 
                     var students = new List<StudentUserViewModel>();

@@ -2,7 +2,7 @@ using System;
 
 namespace AlStudente.Models
 {
-    public class TeacherNotes
+    public class TeacherNote
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
