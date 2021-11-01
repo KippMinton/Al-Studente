@@ -10,7 +10,10 @@
 
 <div class="container pt-5">
     <div class="row justify-content-start">
-        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="EditStudent">Edit Student Profile</a>
+        <a class="btn btn-primary" asp-controller="Account" 
+           asp-action="EditStudent" asp-route-id="@Model.UserProfile.Id">
+                Edit Student Profile
+        </a>
     </div>
     <hr />
     @if (!string.IsNullOrWhiteSpace(Model.UserProfile.ImageLocation))
@@ -86,7 +89,7 @@
         @Html.DisplayNameFor(model => model)Level
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Student.LevelId)
+        @Html.DisplayFor(model => model.Level.Name)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model)Lesson Day
@@ -109,6 +112,5 @@
 </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

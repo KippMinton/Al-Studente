@@ -240,6 +240,39 @@ namespace AlStudente.Auth
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult EditStudent(int id)
+        {
+            var studentUser = _userProfileRepository.GetById(id);
+            var student = _studentRepository.GetByUserId(id);
+            var teacherUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacherUser = _userProfileRepository.GetById(teacherUserId);
+            var teacher = _teacherRepository.GetByUserId(teacherUserId);
+            List<LessonDay> lessonDays = _lessonDayRepository.GetAll();
+            List<LessonTime> lessonTimes = _lessonTimeRepository.GetAll();
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+            List<Level> levels = _levelRepository.GetAll();
+
+            StudentEditViewModel vm = new StudentEditViewModel
+            {
+                UserProfile = studentUser,
+                Student = student,
+                Teacher = teacher,
+                TeacherUser = teacherUser,
+                LessonDays = lessonDays,
+                LessonTimes = lessonTimes,
+                Instruments = instruments,
+                Levels = levels
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditStudent(int id, StudentEditViewModel studentEditVM)
+        {
+            return RedirectToAction("StudentDetails", "Home", new { id = id });
+        }
+        
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
