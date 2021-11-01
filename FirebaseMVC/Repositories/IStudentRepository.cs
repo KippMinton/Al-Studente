@@ -11,5 +11,6 @@ namespace AlStudente.Repositories
         Student GetByUserId(int id);
         List<StudentUserViewModel> GetAllByTeacher(int teacherId);
         void Update(Student student);
+        void DeleteFromRoster(Student student);
     }
 }

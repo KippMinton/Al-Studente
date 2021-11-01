@@ -120,7 +120,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Details", "StudentDetails", new { id=item.UserProfile.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Delete", "DeleteFromRoster", new { id=item.UserProfile.Id })
                 </td>
             </tr>
         }

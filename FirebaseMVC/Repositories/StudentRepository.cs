@@ -223,5 +223,23 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        public void DeleteFromRoster(Student student)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Student
+                            SET TeacherId = 0
+                            WHERE UserId = @userId";
+                    cmd.Parameters.AddWithValue(@"userId", student.UserId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
