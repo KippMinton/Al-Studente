@@ -82,5 +82,27 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        public void Update(Teacher teacher)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE teacher
+                            SET AcceptingStudents = @acceptingStudents,
+                                LessonRate = @lessonRate
+                            WHERE UserId = @userId";
+                    cmd.Parameters.AddWithValue("@acceptingStudents", teacher.AcceptingStudents);
+                    cmd.Parameters.AddWithValue("@lessonRate", teacher.LessonRate);
+                    cmd.Parameters.AddWithValue("@userId", teacher.UserId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

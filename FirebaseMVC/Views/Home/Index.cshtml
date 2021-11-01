@@ -1,6 +1,6 @@
 ﻿@model AlStudente.Models.ViewModels.TeacherUserViewModel
 @{
-    ViewData["Title"] = "AlStudente - {Model.DisplayName}";
+    ViewData["Title"] = "AlStudente - {Model.UserProfile.DisplayName}";
 }
 
 <div class="text-center">
@@ -9,6 +9,9 @@
 
 <div class="container pt-5">
     <h4>@Model.UserProfile.FullName</h4>
+    <div class="row justify-content-start" >
+        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="EditTeacher">Edit Profile</a>
+    </div>
     <hr />
     @if (!string.IsNullOrWhiteSpace(Model.UserProfile.ImageLocation))
     {
@@ -124,5 +127,5 @@
 
 
 <div class="row justify-content-center">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserProfile.Id }) |
+    @Html.ActionLink("Edit", "EditTeacher", new { id = Model.UserProfile.Id })
 </div>

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using AlStudente.Auth.Models;
 using AlStudente.Repositories;
 using AlStudente.Models;
+using AlStudente.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
+
 
 namespace AlStudente.Auth
 {
@@ -124,16 +126,53 @@ namespace AlStudente.Auth
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Edit(int id)
+        public IActionResult EditTeacher()
         {
-            UserProfile user = _userProfileRepository.GetById(id);
+            var user = _userProfileRepository.GetById(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+            var teacher = _teacherRepository.GetByUserId(user.Id);
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+
+            TeacherEditViewModel vm = new TeacherEditViewModel
+            {
+                UserProfile = user,
+                Teacher = teacher,
+                Instruments = instruments,
+            };
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditTeacher(TeacherEditViewModel teacherEditVM)
+        { 
+            var userProfile = new UserProfile
+            {
+                Id = teacherEditVM.UserProfile.Id,
+                FirstName = teacherEditVM.UserProfile.FirstName,
+                LastName = teacherEditVM.UserProfile.LastName,
+                DisplayName = teacherEditVM.UserProfile.DisplayName,
+                InstrumentId = teacherEditVM.UserProfile.InstrumentId,
+                ImageLocation = teacherEditVM.UserProfile.ImageLocation,
+                Bio = teacherEditVM.UserProfile.Bio
+            };
+
+            var teacher = new Teacher
+            {
+                UserId = teacherEditVM.UserProfile.Id,
+                AcceptingStudents = teacherEditVM.Teacher.AcceptingStudents,
+                LessonRate = teacherEditVM.Teacher.LessonRate
+            };
+          
+            _userProfileRepository.Update(userProfile);
+            _teacherRepository.Update(teacher);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult RegisterStudent()

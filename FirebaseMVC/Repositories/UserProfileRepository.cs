@@ -136,5 +136,35 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE UserProfile
+                            SET FirstName = @firstName,
+                                LastName = @lastName,
+                                DisplayName = @displayName,
+                                ImageLocation = @imageLocation,
+                                InstrumentId = @instrumentId,
+                                Bio = @bio
+                            WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", userProfile.LastName);
+                    cmd.Parameters.AddWithValue("@displayName", userProfile.DisplayName);
+                    cmd.Parameters.AddWithValue("@imageLocation", DbUtils.ValueOrDBNull(userProfile.ImageLocation));
+                    cmd.Parameters.AddWithValue("@instrumentId", userProfile.InstrumentId);
+                    cmd.Parameters.AddWithValue("@bio", DbUtils.ValueOrDBNull(userProfile.Bio));
+                    cmd.Parameters.AddWithValue("@id", userProfile.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

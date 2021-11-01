@@ -10,5 +10,6 @@ namespace AlStudente.Repositories
         void Add(Student student);
         Student GetByUserId(int id);
         List<StudentUserViewModel> GetAllByTeacher(int teacherId);
+        void Update(Student student);
     }
 }

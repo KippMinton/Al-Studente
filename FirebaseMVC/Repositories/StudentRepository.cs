@@ -193,5 +193,34 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        public void Update(Student student)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Student
+                            SET DOB = @dOB,
+                                StartDate = @startDate,
+                                PlayinSInce = @playingSince,
+                                LevelId = @levelId,
+                                LessonDayId = @lessonDayId,
+                                LessonTimeId = @lessonTimeId
+                            WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@dOB", student.DOB);
+                    cmd.Parameters.AddWithValue("@startDate", student.StartDate);
+                    cmd.Parameters.AddWithValue("@playingSince", student.PlayingSince);
+                    cmd.Parameters.AddWithValue("@levelId", student.LevelId);
+                    cmd.Parameters.AddWithValue("@lessonDayId", student.LessonDayId);
+                    cmd.Parameters.AddWithValue("@lessonTimeId", student.LessonTimeId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
