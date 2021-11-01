@@ -33,7 +33,7 @@ namespace AlStudente.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Name
+                    cmd.CommandText = @"SELECT Id, Day
                                         FROM LessonDay
                                         WHERE Id = @Id";
 
