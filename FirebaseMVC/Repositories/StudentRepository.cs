@@ -206,17 +206,18 @@ namespace AlStudente.Repositories
                             UPDATE Student
                             SET DOB = @dOB,
                                 StartDate = @startDate,
-                                PlayinSInce = @playingSince,
+                                PlayingSince = @playingSince,
                                 LevelId = @levelId,
                                 LessonDayId = @lessonDayId,
                                 LessonTimeId = @lessonTimeId
-                            WHERE Id = @id";
+                            WHERE UserId = @userId";
                     cmd.Parameters.AddWithValue("@dOB", student.DOB);
                     cmd.Parameters.AddWithValue("@startDate", student.StartDate);
                     cmd.Parameters.AddWithValue("@playingSince", student.PlayingSince);
                     cmd.Parameters.AddWithValue("@levelId", student.LevelId);
                     cmd.Parameters.AddWithValue("@lessonDayId", student.LessonDayId);
                     cmd.Parameters.AddWithValue("@lessonTimeId", student.LessonTimeId);
+                    cmd.Parameters.AddWithValue("@userId", student.UserId);
 
                     cmd.ExecuteNonQuery();
                 }

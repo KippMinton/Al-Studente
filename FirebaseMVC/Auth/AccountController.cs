@@ -240,6 +240,65 @@ namespace AlStudente.Auth
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult EditStudent(int id)
+        {
+            var studentUser = _userProfileRepository.GetById(id);
+            var student = _studentRepository.GetByUserId(id);
+            var teacherUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacherUser = _userProfileRepository.GetById(teacherUserId);
+            var teacher = _teacherRepository.GetByUserId(teacherUserId);
+            List<LessonDay> lessonDays = _lessonDayRepository.GetAll();
+            List<LessonTime> lessonTimes = _lessonTimeRepository.GetAll();
+            List<Instrument> instruments = _instrumentRepository.GetAll();
+            List<Level> levels = _levelRepository.GetAll();
+
+            StudentEditViewModel vm = new StudentEditViewModel
+            {
+                UserProfile = studentUser,
+                Student = student,
+                Teacher = teacher,
+                TeacherUser = teacherUser,
+                LessonDays = lessonDays,
+                LessonTimes = lessonTimes,
+                Instruments = instruments,
+                Levels = levels
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditStudent(int id, StudentEditViewModel studentEditVM)
+        {
+            var userProfile = new UserProfile
+            {
+                Id = studentEditVM.UserProfile.Id,
+                FirstName = studentEditVM.UserProfile.FirstName,
+                LastName = studentEditVM.UserProfile.LastName,
+                DisplayName = studentEditVM.UserProfile.DisplayName,
+                InstrumentId = studentEditVM.UserProfile.InstrumentId,
+                ImageLocation = studentEditVM.UserProfile.ImageLocation,
+                Bio = studentEditVM.UserProfile.Bio
+            };
+
+            var student = new Student
+            {
+                UserId = studentEditVM.UserProfile.Id,
+                TeacherId = studentEditVM.Student.TeacherId,
+                DOB = studentEditVM.Student.DOB,
+                StartDate = studentEditVM.Student.StartDate,
+                PlayingSince = studentEditVM.Student.PlayingSince,
+                LevelId = studentEditVM.Student.LevelId,
+                LessonDayId = studentEditVM.Student.LessonDayId,
+                LessonTimeId = studentEditVM.Student.LessonTimeId
+            };
+
+            _userProfileRepository.Update(userProfile);
+            _studentRepository.Update(student);
+
+            return RedirectToAction("StudentDetails", "Home", new { id = id });
+        }
+        
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

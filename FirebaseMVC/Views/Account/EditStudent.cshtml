@@ -1,0 +1,124 @@
+﻿@model AlStudente.Models.ViewModels.StudentEditViewModel
+
+@{
+    ViewData["Title"] = "EditStudent";
+}
+
+<h1>Edit Student Profile</h1>
+
+<h4>StudentEditViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditStudent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="UserProfile.Id" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.FirstName" class="control-label">First Name</label>
+                <input asp-for="UserProfile.FirstName" class="form-control" />
+                <span asp-validation-for="UserProfile.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.LastName" class="control-label">Last Name</label>
+                <input asp-for="UserProfile.LastName" class="form-control" />
+                <span asp-validation-for="UserProfile.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.DisplayName" class="control-label">Display Name</label>
+                <input asp-for="UserProfile.DisplayName" class="form-control" />
+                <span asp-validation-for="UserProfile.DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.InstrumentId" class="control-label">Instrument</label>
+                <select asp-for="UserProfile.InstrumentId" class="form-control">
+                    <option value="">Select Instrument</option>
+                    @foreach (Instrument instrument in Model.Instruments)
+                    {
+                        <option value="@instrument.Id">@instrument.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="UserProfile.InstrumentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.Bio" class="control-label"></label>
+                <input asp-for="UserProfile.Bio" class="form-control" />
+                <span asp-validation-for="UserProfile.Bio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.ImageLocation" class="control-label">Image URL</label>
+                <input asp-for="UserProfile.ImageLocation" class="form-control" />
+                <span asp-validation-for="UserProfile.ImageLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.StartDate" class="control-label">Start Date</label>
+                <input type="date" asp-for="Student.StartDate" class="form-control" />
+                <span asp-validation-for="Student.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.DOB" class="control-label">Date of Birth</label>
+                <input type="date" asp-for="Student.DOB" class="form-control" />
+                <span asp-validation-for="Student.DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.PlayingSince" class="control-label">Playing Since</label>
+                <input type="number" min="1900" max="2100" asp-for="Student.PlayingSince" class="form-control" />
+                <span asp-validation-for="Student.PlayingSince" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.LevelId" class="control-label">Level</label>
+                <select asp-for="Student.LevelId" class="form-control">
+                    <option value="">Select Level</option>
+                    @foreach (Level level in Model.Levels)
+                    {
+                        <option value="@level.Id">@level.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Student.LevelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.InstrumentId" class="control-label">Instrument</label>
+                <select asp-for="UserProfile.InstrumentId" class="form-control">
+                    <option value="">Select Instrument</option>
+                    @foreach (Instrument instrument in Model.Instruments)
+                    {
+                        <option value="@instrument.Id">@instrument.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="UserProfile.InstrumentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.LessonDayId" class="control-label">Lesson Day</label>
+                <select asp-for="Student.LessonDayId" class="form-control">
+                    @foreach (LessonDay day in Model.LessonDays)
+                    {
+                        <option value="@day.Id">@day.Day</option>
+                    }
+                </select>
+                <span asp-validation-for="Student.LessonDayId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.LessonTimeId" class="control-label">Lesson Time</label>
+                <select asp-for="Student.LessonTimeId" class="form-control">
+                    @foreach (LessonTime time in Model.LessonTimes)
+                    {
+                        <option value="@time.Id">@time.Time</option>
+                    }
+                </select>
+                <span asp-validation-for="Student.LessonTimeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="StudentDetails" asp-route-id="@Model.UserProfile.Id">Back to Profile</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
