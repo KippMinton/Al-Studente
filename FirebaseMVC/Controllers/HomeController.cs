@@ -54,6 +54,33 @@ namespace AlStudente.Controllers
             return View(vm);
         }
 
+        public IActionResult StudentDetails(int id)
+        {
+            var studentUser = _userProfileRepository.GetById(id);
+            var student = _studentRepository.GetByUserId(id);
+            var teacherUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacherUser = _userProfileRepository.GetById(teacherUserId);
+            var teacher = _teacherRepository.GetByUserId(teacherUserId);
+            var lessonDay = _lessonDayRepository.GetById(student.LessonDayId);
+            var lessonTime = _lessonTimeRepository.GetById(student.LessonTimeId);
+            var instrument = _instrumentRepository.GetById(studentUser.InstrumentId);
+            var level = _levelRepository.GetById(student.LevelId);
+
+            StudentUserViewModel vm = new StudentUserViewModel
+            {
+                UserProfile = studentUser,
+                Student = student,
+                Teacher = teacher,
+                TeacherUser = teacherUser,
+                LessonDay = lessonDay,
+                LessonTime = lessonTime,
+                Instrument = instrument,
+                Level = level
+            };
+
+            return View(vm);
+        }
+
         public IActionResult Privacy()
         {
             return View();
