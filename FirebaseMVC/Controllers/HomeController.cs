@@ -88,6 +88,24 @@ namespace AlStudente.Controllers
         public IActionResult DeleteFromRoster(int id)
         {
             var student = _studentRepository.GetByUserId(id);
+            var studentUser = _userProfileRepository.GetById(student.UserId);
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
+
+            var vm = new StudentUserViewModel
+            {
+                Student = student,
+                UserProfile = studentUser,
+                Teacher = teacher
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteFromRoster(Student student)
+        {
             _studentRepository.DeleteFromRoster(student);
             return RedirectToAction("Index");
         }
