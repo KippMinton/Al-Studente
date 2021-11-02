@@ -113,13 +113,12 @@ namespace AlStudente.Repositories
                                                  Content, CreateDateTime)
                                     OUTPUT INSERTED.ID
                                     VALUES (@teacherId, @studentId, @title,
-                                                 @content, @createDateTime)";
+                                                 @content, GETDATE())";
 
                     cmd.Parameters.AddWithValue("@teacherId", teacherNote.TeacherId);
                     cmd.Parameters.AddWithValue("@studentId", teacherNote.StudentId);
                     cmd.Parameters.AddWithValue("@title", teacherNote.Title);
                     cmd.Parameters.AddWithValue("@content", teacherNote.Content);
-                    cmd.Parameters.AddWithValue("@createDateTime", teacherNote.CreateDateTime);
 
                     teacherNote.Id = (int)cmd.ExecuteScalar();
                 }

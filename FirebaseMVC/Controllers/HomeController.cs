@@ -19,11 +19,12 @@ namespace AlStudente.Controllers
         private readonly ILessonDayRepository _lessonDayRepository;
         private readonly ILessonTimeRepository _lessonTimeRepository;
         private readonly ILevelRepository _levelRepository;
+        private readonly ITeacherNoteRepository _teacherNoteRepository;
 
         public HomeController(IUserProfileRepository userProfileRepository, ITeacherRepository teacherRepository,
                               IStudentRepository studentRepository, IInstrumentRepository instrumentRepository,
                               ILessonDayRepository lessonDayRepository, ILessonTimeRepository lessonTimeRepository,
-                              ILevelRepository levelRepository)
+                              ILevelRepository levelRepository, ITeacherNoteRepository teacherNoteRepository)
         {
             _userProfileRepository = userProfileRepository;
             _teacherRepository = teacherRepository;
@@ -32,6 +33,7 @@ namespace AlStudente.Controllers
             _lessonDayRepository = lessonDayRepository;
             _lessonTimeRepository = lessonTimeRepository;
             _levelRepository = levelRepository;
+            _teacherNoteRepository = teacherNoteRepository;
         }
 
         public IActionResult Index()
@@ -65,6 +67,7 @@ namespace AlStudente.Controllers
             var lessonTime = _lessonTimeRepository.GetById(student.LessonTimeId);
             var instrument = _instrumentRepository.GetById(studentUser.InstrumentId);
             var level = _levelRepository.GetById(student.LevelId);
+            var teacherNotes = _teacherNoteRepository.GetAllByStudentId(student.Id);
 
             StudentUserViewModel vm = new StudentUserViewModel
             {
@@ -75,7 +78,8 @@ namespace AlStudente.Controllers
                 LessonDay = lessonDay,
                 LessonTime = lessonTime,
                 Instrument = instrument,
-                Level = level
+                Level = level,
+                Notes = teacherNotes
             };
 
             return View(vm);

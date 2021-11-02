@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AlStudente.Models
 {
@@ -9,6 +10,7 @@ namespace AlStudente.Models
         public int StudentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime CreateDateTime { get; set; }
     }
 }

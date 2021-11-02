@@ -31,6 +31,8 @@ namespace AlStudente
             services.AddTransient<ILessonDayRepository, LessonDayRepository>();
             services.AddTransient<ILessonTimeRepository, LessonTimeRepository>();
             services.AddTransient<ILevelRepository, LevelRepository>();
+            services.AddTransient<ITeacherNoteRepository, TeacherNoteRepository>();
+            
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

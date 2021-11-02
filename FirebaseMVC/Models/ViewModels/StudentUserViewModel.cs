@@ -1,4 +1,6 @@
-﻿namespace AlStudente.Models.ViewModels
+﻿using System.Collections.Generic;
+
+namespace AlStudente.Models.ViewModels
 {
     public class StudentUserViewModel
     {
@@ -10,5 +12,7 @@
         public LessonTime LessonTime { get; set; }
         public Instrument Instrument { get; set; }
         public Level Level { get; set; }
+        public List<TeacherNote> Notes { get; set; }
+        public TeacherNote TeacherNote { get; set; }
     }
 }
