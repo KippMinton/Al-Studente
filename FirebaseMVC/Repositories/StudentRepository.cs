@@ -26,6 +26,45 @@ namespace AlStudente.Repositories
             }
         }
 
+        public Student GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                      SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
+                                             s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId
+                                      FROM Student s
+                                      WHERE s.Id = @Id";
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    Student student = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        student = new Student()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                            TeacherId = reader.GetInt32(reader.GetOrdinal("TeacherId")),
+                            DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
+                            StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                            PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
+                            LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
+                            LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
+                            LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
+                        };
+                    }
+                    reader.Close();
+
+                    return student;
+                }
+            }
+        }
 
         //void Add(Student student);
         public Student GetByUserId(int id)

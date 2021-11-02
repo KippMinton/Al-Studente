@@ -34,8 +34,15 @@ namespace AlStudente.Controllers
         public ActionResult Details(int id)
         {
             var note = _teacherNoteRepository.GetById(id);
+            var student = _studentRepository.GetById(note.StudentId);
 
-            return View(note);
+            var noteVM = new TeacherNoteViewModel
+            {
+                TeacherNote = note,
+                Student = student
+            };
+
+            return View(noteVM);
         }
 
         // GET: TeacherNoteController/Create
