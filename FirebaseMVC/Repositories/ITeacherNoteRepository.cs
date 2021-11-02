@@ -11,6 +11,6 @@ namespace AlStudente.Repositories
         TeacherNote GetById(int id);
         List<TeacherNote> GetAllByStudentId(int id);
         void Update(TeacherNote teacherNote);
-        void Delete(TeacherNote teacherNote);
+        void Delete(int Id);
     }
 }

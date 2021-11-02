@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AlStudente.Repositories;
 using AlStudente.Models;
+using System.Security.Claims;
 
 namespace AlStudente.Controllers
 {
@@ -35,11 +36,14 @@ namespace AlStudente.Controllers
         {
             var note = _teacherNoteRepository.GetById(id);
             var student = _studentRepository.GetById(note.StudentId);
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
 
             var noteVM = new TeacherNoteViewModel
             {
                 TeacherNote = note,
-                Student = student
+                Student = student,
+                Teacher = teacher
             };
 
             return View(noteVM);
@@ -49,9 +53,13 @@ namespace AlStudente.Controllers
         public ActionResult Create(int id)
         {
             var student = _studentRepository.GetByUserId(id);
-            TeacherNoteViewModel newNoteVM = new TeacherNoteViewModel
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
+
+            var newNoteVM = new TeacherNoteViewModel
             {
                 Student = student,
+                Teacher = teacher,
                 TeacherNote = new TeacherNote
                 {
                     StudentId = student.Id,
@@ -92,28 +100,63 @@ namespace AlStudente.Controllers
         // GET: TeacherNoteController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var note = _teacherNoteRepository.GetById(id);
+            var student = _studentRepository.GetById(note.StudentId);
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
+
+            var noteVM = new TeacherNoteViewModel
+            {
+                Student = student,
+                Teacher = teacher,
+                TeacherNote = new TeacherNote
+                {
+                    StudentId = note.StudentId,
+                    TeacherId = note.TeacherId,
+                    Title = note.Title,
+                    Content = note.Content
+                }
+            };
+
+            return View(noteVM);
         }
 
         // POST: TeacherNoteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, TeacherNoteViewModel noteVM)
         {
-            try
+            
+            var note = new TeacherNote
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Id = id,
+                StudentId = noteVM.TeacherNote.StudentId,
+                TeacherId = noteVM.TeacherNote.TeacherId,
+                Title = noteVM.TeacherNote.Title,
+                Content = noteVM.TeacherNote.Content
+            };
+
+            _teacherNoteRepository.Update(note);
+
+            return RedirectToAction("Details", "TeacherNote", new { id = id } );
+
+
+            //try
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: TeacherNoteController/Delete/5
         public ActionResult Delete(int id)
         {
+            _teacherNoteRepository.Delete(id);
             return View();
+
         }
 
         // POST: TeacherNoteController/Delete/5

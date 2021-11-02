@@ -6,23 +6,26 @@
 
 <h1>@Model.TeacherNote.Title</h1>
 <hr />
+@if (Model.Teacher.Id == Model.TeacherNote.TeacherId)
+{
+    <div class="container pt-5">
+        <dl class="row justify-content-between">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model)Published
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TeacherNote.CreateDateTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model)Notes
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TeacherNote.Content)
+            </dd>
+        </dl>
+    </div>
+}
 
-<div class="container pt-5">
-    <dl class="row justify-content-between">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model)Published
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TeacherNote.CreateDateTime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model)Notes
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TeacherNote.Content)
-        </dd>
-    </dl>
-</div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.TeacherNote.Id }) |
     <a asp-action="StudentDetails" asp-controller="Home" asp-route-id="@Model.Student.UserId">Back to Profile</a>

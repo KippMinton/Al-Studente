@@ -147,7 +147,7 @@ namespace AlStudente.Repositories
             }
         }
 
-        public void Delete(TeacherNote teacherNote)
+        public void Delete(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -156,7 +156,7 @@ namespace AlStudente.Repositories
                 {
                     cmd.CommandText = @"DELETE from TeacherNote WHERE Id = @id";
                     
-                    cmd.Parameters.AddWithValue(@"id", teacherNote.Id);
+                    cmd.Parameters.AddWithValue(@"id", id);
 
                     cmd.ExecuteNonQuery();
                 }

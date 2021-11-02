@@ -27,6 +27,40 @@ namespace AlStudente.Repositories
             }
         }
 
+        public Teacher GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT t.Id, t.UserId, t.AcceptingStudents, t.LessonRate
+                                    FROM Teacher t
+                                    WHERE t.Id = @Id";
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    Teacher teacher = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        teacher = new Teacher()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                            AcceptingStudents = reader.GetBoolean(reader.GetOrdinal("AcceptingStudents")),
+                            LessonRate = reader.GetInt32(reader.GetOrdinal("LessonRate"))
+                        };
+                    }
+                    reader.Close();
+
+                    return teacher;
+                }
+            }
+        }
+
         public Teacher GetByUserId(int id)
         {
             using (SqlConnection conn = Connection)
