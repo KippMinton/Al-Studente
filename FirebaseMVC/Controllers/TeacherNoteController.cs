@@ -25,12 +25,6 @@ namespace AlStudente.Controllers
             _studentRepository = studentRepository;
         }
 
-        // GET: TeacherNoteController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         // GET: TeacherNoteController/Details/5
         public ActionResult Details(int id)
         {
@@ -90,11 +84,6 @@ namespace AlStudente.Controllers
                 _teacherNoteRepository.Add(newNote);
 
                 return RedirectToAction("StudentDetails", "Home", new { id = id });
-            
-            //catch
-            //{
-            //    return View(noteVM);
-            //}
         }
 
         // GET: TeacherNoteController/Edit/5
@@ -111,6 +100,7 @@ namespace AlStudente.Controllers
                 Teacher = teacher,
                 TeacherNote = new TeacherNote
                 {
+                    Id = note.Id,
                     StudentId = note.StudentId,
                     TeacherId = note.TeacherId,
                     Title = note.Title,
@@ -154,24 +144,45 @@ namespace AlStudente.Controllers
         // GET: TeacherNoteController/Delete/5
         public ActionResult Delete(int id)
         {
-            _teacherNoteRepository.Delete(id);
-            return View();
+            var note = _teacherNoteRepository.GetById(id);
+            var student = _studentRepository.GetById(note.StudentId);
+            var teacherUserProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var teacher = _teacherRepository.GetByUserId(teacherUserProfileId);
+
+            var noteVM = new TeacherNoteViewModel
+            {
+                Student = student,
+                Teacher = teacher,
+                TeacherNote = new TeacherNote
+                {
+                    Id = note.Id,
+                    StudentId = note.StudentId,
+                    TeacherId = note.TeacherId,
+                    Title = note.Title,
+                    CreateDateTime = note.CreateDateTime,
+                    Content = note.Content
+                }
+            };
+
+            return View(noteVM);
 
         }
 
         // POST: TeacherNoteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, TeacherNoteViewModel noteVM)
         {
-            try
+            TeacherNote note = new TeacherNote
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Id = id,
+                StudentId = noteVM.TeacherNote.StudentId,
+            };
+
+            var student = _studentRepository.GetById(note.StudentId);
+            _teacherNoteRepository.Delete(id);
+
+            return RedirectToAction("StudentDetails", "Home", new { id = student.UserId });
         }
     }
 }
