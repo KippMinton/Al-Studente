@@ -217,6 +217,7 @@ namespace AlStudente.Auth
                 LastName = studentRegistration.LastName,
                 DisplayName = studentRegistration.DisplayName,
                 InstrumentId = studentRegistration.InstrumentId,
+                Bio = studentRegistration.Bio,
                 UserTypeId = 3
             };
             _userProfileRepository.Add(newUserProfile);
