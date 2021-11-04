@@ -66,7 +66,6 @@ namespace AlStudente.Repositories
             }
         }
 
-        //void Add(Student student);
         public Student GetByUserId(int id)
         {
             using (SqlConnection conn = Connection)
@@ -78,9 +77,9 @@ namespace AlStudente.Repositories
                                       SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
                                              s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId
                                       FROM Student s
-                                      WHERE s.UserId = @Id";
+                                      WHERE s.UserId = @id";
 
-                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     Student student = null;
 
@@ -106,6 +105,116 @@ namespace AlStudente.Repositories
                 }
             }
         }
+
+        // for Home/StudentDetails/id build a StudentUserViewModel from SQL query
+        public StudentUserViewModel GetStudentVMByUserId(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT  s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
+                                s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId,
+                                u.Id as ProfileId, u.FirstName, u.LastName, u.DisplayName, u.Email, 
+                                u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.Bio,
+                                u.UserTypeId, l.Id as LId, l.Name as Level, ut.Id as UtId, ut.Name as UserTypeName, i.Id as InstId,
+                                i.Name as InstName, ld.Id as DayId, ld.Day as Day, lt.Id as TimeId,
+                                lt.Time as Time
+                        FROM Student s
+                        LEFT JOIN UserProfile u ON s.UserId = u.Id
+                        LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                        LEFT JOIN Instrument i on u.InstrumentId = i.Id
+                        LEFT JOIN Level l on s.LevelId = l.Id
+                        LEFT JOIN LessonDay ld on s.LessonDayId = ld.Id
+                        LEFT JOIN LessonTime lt on s.LessonTimeId = lt.Id
+                        WHERE s.UserId = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    StudentUserViewModel studentVM = null;
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        studentVM = new StudentUserViewModel
+                        {
+                            UserProfile = new UserProfile
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("ProfileId")),
+                                Email = reader.GetString(reader.GetOrdinal("Email")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                                InstrumentId = reader.GetInt32(reader.GetOrdinal("InstrumentId")),
+                                UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                UserType = new UserType()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                    Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                                },
+                            },
+
+                            Student = new Student
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                TeacherId = reader.GetInt32(reader.GetOrdinal("TeacherId")),
+                                DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
+                                StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                PlayingSince = reader.GetInt32(reader.GetOrdinal("PlayingSince")),
+                                LevelId = reader.GetInt32(reader.GetOrdinal("LevelId")),
+                                LessonDayId = reader.GetInt32(reader.GetOrdinal("LessonDayId")),
+                                LessonTimeId = reader.GetInt32(reader.GetOrdinal("LessonTimeId"))
+                            },
+
+
+                            Instrument = new Instrument
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("InstId")),
+                                Name = reader.GetString(reader.GetOrdinal("InstName"))
+                            },
+
+                            Level = new Level
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("LId")),
+                                Name = reader.GetString(reader.GetOrdinal("Level"))
+                            },
+
+                            LessonDay = new LessonDay
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("DayId")),
+                                Day = reader.GetString(reader.GetOrdinal("Day"))
+                            },
+
+                            LessonTime = new LessonTime
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("TimeId")),
+                                Time = reader.GetString(reader.GetOrdinal("Time"))
+                            }
+
+                            //Notes = new List<TeacherNote>()
+                        };
+
+                            //var teacherNote = new TeacherNote
+                            //{
+                            //Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            //Title = reader.GetString(reader.GetOrdinal("Title")),
+                            //Content = reader.GetString(reader.GetOrdinal("Content")),
+                            //CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
+                            //};
+                            //studentVM.Notes.Add(teacherNote);
+                    }
+                        
+                    reader.Close();
+
+                    return studentVM;
+                }
+            }
+        }
+
         public List<StudentUserViewModel> GetAllByTeacher(int teacherId)
         {
             using (var conn = Connection)
@@ -117,7 +226,7 @@ namespace AlStudente.Repositories
                         SELECT s.Id, s.UserId, s.TeacherId, s.DOB, s.StartDate,
                                s.PlayingSince, s.LevelId, s.LessonDayId, s.LessonTimeId,
                                u.Id as ProfileId, u.FirstName, u.LastName, u.DisplayName, u.Email, 
-                               u.CreateDateTime, u.InstrumentId, u.ImageLocation, u.CreateDateTime,
+                               u.CreateDateTime, u.InstrumentId, u.ImageLocation,
                                u.UserTypeId, l.Id as LId, l.Name as Level, ut.Id as UtId, ut.Name as UserTypeName, i.Id as InstId,
                                i.Name as InstName, ld.Id as DayId, ld.Day as Day, lt.Id as TimeId,
                                lt.Time as Time

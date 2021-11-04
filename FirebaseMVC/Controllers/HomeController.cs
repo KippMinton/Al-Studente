@@ -53,34 +53,54 @@ namespace AlStudente.Controllers
                 Instrument = teacherInst
             };
 
+            var bookings = new List<string>();
+
+            foreach(StudentUserViewModel svm in students)
+            {
+                string bookingString = svm.Student.LessonDayId.ToString() + svm.Student.LessonTimeId.ToString();
+                if(bookings.Contains(bookingString))
+                {
+                    return RedirectToAction("IndexWithDoubleBooking");
+                }
+                bookings.Add(bookingString);
+            }
+
+
+            return View(vm);
+        }
+
+        public IActionResult IndexWithDoubleBooking()
+        {
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+            var teacher = _teacherRepository.GetByUserId(userProfileId);
+            var teacherInst = _instrumentRepository.GetById(userProfile.InstrumentId);
+
+            List<StudentUserViewModel> students = _studentRepository.GetAllByTeacher(teacher.Id);
+
+            TeacherUserViewModel vm = new TeacherUserViewModel
+            {
+                UserProfile = userProfile,
+                Teacher = teacher,
+                Students = students,
+                Instrument = teacherInst
+            };
+
             return View(vm);
         }
 
         public IActionResult StudentDetails(int id)
         {
-            var studentUser = _userProfileRepository.GetById(id);
-            var student = _studentRepository.GetByUserId(id);
+
+            StudentUserViewModel vm = _studentRepository.GetStudentVMByUserId(id);
             var teacherUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var teacherUser = _userProfileRepository.GetById(teacherUserId);
             var teacher = _teacherRepository.GetByUserId(teacherUserId);
-            var lessonDay = _lessonDayRepository.GetById(student.LessonDayId);
-            var lessonTime = _lessonTimeRepository.GetById(student.LessonTimeId);
-            var instrument = _instrumentRepository.GetById(studentUser.InstrumentId);
-            var level = _levelRepository.GetById(student.LevelId);
-            var teacherNotes = _teacherNoteRepository.GetAllByStudentId(student.Id);
+            var teacherNotes = _teacherNoteRepository.GetAllByStudentId(vm.Student.Id);
 
-            StudentUserViewModel vm = new StudentUserViewModel
-            {
-                UserProfile = studentUser,
-                Student = student,
-                Teacher = teacher,
-                TeacherUser = teacherUser,
-                LessonDay = lessonDay,
-                LessonTime = lessonTime,
-                Instrument = instrument,
-                Level = level,
-                Notes = teacherNotes
-            };
+            vm.Teacher = teacher;
+            vm.TeacherUser = teacherUser;
+            vm.Notes = teacherNotes;
 
             return View(vm);
         }
