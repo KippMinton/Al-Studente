@@ -128,7 +128,8 @@ namespace AlStudente.Repositories
                         LEFT JOIN Level l on s.LevelId = l.Id
                         LEFT JOIN LessonDay ld on s.LessonDayId = ld.Id
                         LEFT JOIN LessonTime lt on s.LessonTimeId = lt.Id
-                        WHERE s.TeacherId = @teacherId";
+                        WHERE s.TeacherId = @teacherId
+                        ORDER BY DayId, TimeId";
 
                     cmd.Parameters.AddWithValue("@teacherId", teacherId);
                     var reader = cmd.ExecuteReader();

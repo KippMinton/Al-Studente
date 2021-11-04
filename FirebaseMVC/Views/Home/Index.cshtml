@@ -1,6 +1,6 @@
 ﻿@model AlStudente.Models.ViewModels.TeacherUserViewModel
 @{
-    ViewData["Title"] = "AlStudente - {Model.UserProfile.DisplayName}";
+    ViewData["Title"] = @Model.UserProfile.DisplayName;
 }
 
 <div class="text-center">
@@ -8,7 +8,6 @@
 </div>
 
 <div class="container pt-5">
-    <h4>@Model.UserProfile.FullName</h4>
     <div class="row justify-content-start" >
         <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="EditTeacher">Edit Profile</a>
     </div>
@@ -62,7 +61,7 @@
         @Html.DisplayNameFor(model => model.Teacher.LessonRate)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Teacher.LessonRate)
+        @Html.DisplayFor(model => model)$@Model.Teacher.LessonRate.00
     </dd>   
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.UserProfile.Bio)

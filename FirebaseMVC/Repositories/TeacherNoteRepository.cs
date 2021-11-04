@@ -72,7 +72,8 @@ namespace AlStudente.Repositories
                     cmd.CommandText = @"Select tn.Id, tn.TeacherId, tn.StudentId,
                                         tn.Title, tn.Content, tn.CreateDateTime
                                         FROM TeacherNote tn
-                                        WHERE StudentId = @studentId";
+                                        WHERE StudentId = @studentId
+                                        ORDER BY tn.CreateDateTime";
 
                     cmd.Parameters.AddWithValue("@studentId", studentId);
                     var reader = cmd.ExecuteReader();
