@@ -53,6 +53,39 @@ namespace AlStudente.Controllers
                 Instrument = teacherInst
             };
 
+            var bookings = new List<string>();
+
+            foreach(StudentUserViewModel svm in students)
+            {
+                string bookingString = svm.Student.LessonDayId.ToString() + svm.Student.LessonTimeId.ToString();
+                if(bookings.Contains(bookingString))
+                {
+                    return RedirectToAction("IndexWithDoubleBooking");
+                }
+                bookings.Add(bookingString);
+            }
+
+
+            return View(vm);
+        }
+
+        public IActionResult IndexWithDoubleBooking()
+        {
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+            var teacher = _teacherRepository.GetByUserId(userProfileId);
+            var teacherInst = _instrumentRepository.GetById(userProfile.InstrumentId);
+
+            List<StudentUserViewModel> students = _studentRepository.GetAllByTeacher(teacher.Id);
+
+            TeacherUserViewModel vm = new TeacherUserViewModel
+            {
+                UserProfile = userProfile,
+                Teacher = teacher,
+                Students = students,
+                Instrument = teacherInst
+            };
+
             return View(vm);
         }
 

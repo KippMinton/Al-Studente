@@ -1,0 +1,129 @@
+﻿@model AlStudente.Models.ViewModels.TeacherUserViewModel
+@{
+    ViewData["Title"] = @Model.UserProfile.DisplayName;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @Model.UserProfile.DisplayName</h1>
+</div>
+
+<div class="container pt-5">
+    <div class="row justify-content-start">
+        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="EditTeacher">Edit Profile</a>
+    </div>
+    <hr />
+    @if (!string.IsNullOrWhiteSpace(Model.UserProfile.ImageLocation))
+    {
+        <section class="row justify-content-start">
+            <div>
+                <img src="@Model.UserProfile.ImageLocation" />
+            </div>
+        </section>
+    }
+    <dl class="row justify-content-between">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model)Full Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model)Display Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.DisplayName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Instrument)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Instrument.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model)User Type
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.UserType.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model)Accepting Students
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.AcceptingStudents)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.LessonRate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model)$@Model.Teacher.LessonRate.00
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.Bio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.Bio)
+        </dd>
+    </dl>
+</div>
+
+<div class="row justify-content-start">
+    <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="RegisterStudent">Add Student</a>
+</div>
+
+<h3 class="alert-danger">YOU HAVE STUDENTS SCHEDULED FOR THE SAME LESSON TIME!</h3>
+
+    @{ var dummy = Model.Students.FirstOrDefault();}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => dummy.UserProfile.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentVM.LessonDay.Day)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentVM.LessonTime.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentVM.Instrument)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentVM.Level)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Students)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonDay.Day)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonTime.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instrument.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "StudentDetails", new { id = item.UserProfile.Id }) |
+                        @Html.ActionLink("Delete", "DeleteFromRoster", new { id = item.UserProfile.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
