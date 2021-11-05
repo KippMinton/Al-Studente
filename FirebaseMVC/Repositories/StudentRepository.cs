@@ -149,6 +149,7 @@ namespace AlStudente.Repositories
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                                 ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
                                 InstrumentId = reader.GetInt32(reader.GetOrdinal("InstrumentId")),
+                                Bio = DbUtils.GetNullableString(reader, "Bio"),
                                 UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                                 UserType = new UserType()
                                 {
