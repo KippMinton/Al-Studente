@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit Note";
 }
 
-<h1>Edit</h1>
+<h1>Edit Note: @Model.TeacherNote.Title</h1>
 
-<h4>TeacherNoteViewModel</h4>
 <hr />
 @if (Model.Teacher.Id == Model.TeacherNote.TeacherId)
 {

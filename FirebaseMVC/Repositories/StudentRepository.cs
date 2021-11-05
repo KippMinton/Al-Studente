@@ -107,6 +107,7 @@ namespace AlStudente.Repositories
         }
 
         // for Home/StudentDetails/id build a StudentUserViewModel from SQL query
+        // with all data except for teacher's notes
         public StudentUserViewModel GetStudentVMByUserId(int id)
         {
             using (SqlConnection conn = Connection)
@@ -149,6 +150,7 @@ namespace AlStudente.Repositories
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                                 ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
                                 InstrumentId = reader.GetInt32(reader.GetOrdinal("InstrumentId")),
+                                Bio = DbUtils.GetNullableString(reader, "Bio"),
                                 UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                                 UserType = new UserType()
                                 {
@@ -194,18 +196,7 @@ namespace AlStudente.Repositories
                                 Id = reader.GetInt32(reader.GetOrdinal("TimeId")),
                                 Time = reader.GetString(reader.GetOrdinal("Time"))
                             }
-
-                            //Notes = new List<TeacherNote>()
                         };
-
-                            //var teacherNote = new TeacherNote
-                            //{
-                            //Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            //Title = reader.GetString(reader.GetOrdinal("Title")),
-                            //Content = reader.GetString(reader.GetOrdinal("Content")),
-                            //CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
-                            //};
-                            //studentVM.Notes.Add(teacherNote);
                     }
                         
                     reader.Close();
@@ -215,6 +206,8 @@ namespace AlStudente.Repositories
             }
         }
 
+        //get all students associated with certain teacher
+        // to display in list on teacher's main page
         public List<StudentUserViewModel> GetAllByTeacher(int teacherId)
         {
             using (var conn = Connection)
@@ -373,6 +366,9 @@ namespace AlStudente.Repositories
             }
         }
 
+        //soft delete removes student from teacher's roster but not from db
+        //associates student with a blank teacher user
+        //that has no login credentials
         public void DeleteFromRoster(Student student)
         {
             using (SqlConnection conn = Connection)
