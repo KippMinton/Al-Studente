@@ -15,4 +15,4 @@ Al Studente is not a deployed application. To run the program:
 
 ## Al Studente ERD
 
-![Al Studente ERD](/AlStudenteERD.png)
+![Al Studente ERD](/ALSTUDENTE/AlStudenteERD.png)
