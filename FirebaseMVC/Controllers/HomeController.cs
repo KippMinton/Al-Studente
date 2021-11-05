@@ -36,8 +36,12 @@ namespace AlStudente.Controllers
             _teacherNoteRepository = teacherNoteRepository;
         }
 
+        //home page view for an authorized teacher user
         public IActionResult Index()
         {
+            //capture the Id of the currently logged in UserProfile and connect to its teacher data
+            //not passing an Id directly into Index prevents unauthorized access to other users' profiles
+            //
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
             var teacher = _teacherRepository.GetByUserId(userProfileId);
@@ -52,6 +56,10 @@ namespace AlStudente.Controllers
                 Students = students,
                 Instrument = teacherInst
             };
+
+            //compare lesson times of each student in list
+            //if more than one student is booked on a certain day
+            //redirect to view that displays warning message
 
             var bookings = new List<string>();
 
@@ -69,6 +77,8 @@ namespace AlStudente.Controllers
             return View(vm);
         }
 
+        //builds and renders the same view as Index
+        //but with warning message for double bookings
         public IActionResult IndexWithDoubleBooking()
         {
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
