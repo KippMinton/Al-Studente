@@ -15,4 +15,5 @@ Al Studente is not a deployed application. To run the program:
 
 ## Al Studente ERD
 
-![Alt text](/alstudente/AlStudenteERD.png?raw=true "Al Studente ERD")
+![Al Studente ERD](/alstudente/AlStudenteERD.png)
+format: ![Alt Text](url)
