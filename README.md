@@ -13,6 +13,3 @@ Al Studente is not a deployed application. To run the program:
     browser utilizing local ports 5000 and 5001.
 
 
-## Al Studente ERD
-
-![Al Studente ERD](/ALSTUDENTE/AlStudenteERD.png)
