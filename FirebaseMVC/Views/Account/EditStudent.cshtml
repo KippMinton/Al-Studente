@@ -79,17 +79,6 @@
                     <span asp-validation-for="Student.LevelId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="UserProfile.InstrumentId" class="control-label">Instrument</label>
-                    <select asp-for="UserProfile.InstrumentId" class="form-control">
-                        <option value="">Select Instrument</option>
-                        @foreach (Instrument instrument in Model.Instruments)
-                        {
-                            <option value="@instrument.Id">@instrument.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="UserProfile.InstrumentId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Student.LessonDayId" class="control-label">Lesson Day</label>
                     <select asp-for="Student.LessonDayId" class="form-control">
                         @foreach (LessonDay day in Model.LessonDays)

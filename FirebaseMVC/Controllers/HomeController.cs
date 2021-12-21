@@ -53,6 +53,10 @@ namespace AlStudente.Controllers
                 Instrument = teacherInst
             };
 
+            //check for double bookings by building a list of each student's
+            //LessonDayId and LessonTimeId as strings
+            //if duplicates exist a lesson time is double booked
+            //teacher is redirected to index view with an alert
             var bookings = new List<string>();
 
             foreach(StudentUserViewModel svm in students)
