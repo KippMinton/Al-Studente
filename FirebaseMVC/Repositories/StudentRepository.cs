@@ -195,17 +195,7 @@ namespace AlStudente.Repositories
                                 Time = reader.GetString(reader.GetOrdinal("Time"))
                             }
 
-                            //Notes = new List<TeacherNote>()
                         };
-
-                            //var teacherNote = new TeacherNote
-                            //{
-                            //Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            //Title = reader.GetString(reader.GetOrdinal("Title")),
-                            //Content = reader.GetString(reader.GetOrdinal("Content")),
-                            //CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
-                            //};
-                            //studentVM.Notes.Add(teacherNote);
                     }
                         
                     reader.Close();

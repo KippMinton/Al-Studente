@@ -1,7 +1,7 @@
 ﻿@model AlStudente.Models.TeacherNoteViewModel
 
 @{
-    ViewData["Title"] = "AlStudente - {Model.TeacherNote.Title}"; 
+    ViewData["Title"] = @Model.TeacherNote.Title;
 }
 
 @if (Model.Teacher.Id == Model.TeacherNote.TeacherId)
